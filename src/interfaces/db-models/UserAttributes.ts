@@ -1,7 +1,7 @@
 export interface UserAttributes {
   id?: number;
-  name: string;
   email: string;
+  name: string;
   password: string;
   profileImgUrl?: string;
 }
