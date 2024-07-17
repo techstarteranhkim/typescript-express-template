@@ -1,20 +1,19 @@
 import { Router } from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import TodoModel from '../../database/models/TodoModel';
-import {
+import type {
   ICreateNewTodoBody,
   IDeleteTodoBody,
-  IMarkTodoBody,
+  IGetAllTodosBody,
   IUpdateTodoBody,
-} from '../../interfaces/routes/todos/TodoRequestTypes';
+} from '../../interfaces/routers/TodoRquests';
 
 const TodosRouter = Router();
 
-// GET REQUESTS
+// GET  REQUESTS
 // /v1/todos/bytodoid
 TodosRouter.get('/byid', async (req, res) => {
   const todoId = parseInt(req.query.todoId as string);
-
   if (!todoId) {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
@@ -25,6 +24,22 @@ TodosRouter.get('/byid', async (req, res) => {
 });
 
 // Alle Todos von einer UserId
+TodosRouter.get('/byuserid', async (req, res) => {
+  const userId = parseInt(req.query.userId as string);
+
+  if (!userId) {
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .send(ReasonPhrases.BAD_REQUEST + ' Keine userID');
+    return;
+  }
+
+  const userTodos = await TodoModel.findAll({
+    where: { userId: userId },
+  });
+
+  res.status(StatusCodes.OK).json({ todos: userTodos });
+});
 
 TodosRouter.get('/all', async (req, res) => {
   const todos = await TodoModel.findAll();
@@ -34,7 +49,7 @@ TodosRouter.get('/all', async (req, res) => {
 // PUT REQUESTS
 TodosRouter.put('/mark', async (req, res) => {
   try {
-    const { todoId, newIsDone } = req.body as IMarkTodoBody;
+    const { todoId, newIsDone } = req.body as IGetAllTodosBody;
 
     if (!todoId) throw Error('keine User Id');
 

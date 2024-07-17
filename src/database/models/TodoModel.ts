@@ -1,7 +1,10 @@
+// Define the Todo model
+
 import { DataTypes, Model, Optional } from 'sequelize';
 import todoSequelize from '../setup/database';
-import { TodoAttributes } from '../../interfaces/db-models/TodoAttributes';
+import { TodoAttributes } from '../../interfaces/models/TodoAttributes';
 
+// Optional fields for model creation
 interface TodoCreationAttributes
   extends Optional<TodoAttributes, 'id' | 'isDone'> {}
 
@@ -52,7 +55,10 @@ TodoModel.init(
       allowNull: false,
     },
   },
-  { tableName: 'Todos', sequelize: todoSequelize },
+  {
+    sequelize: todoSequelize,
+    tableName: 'Todos',
+  },
 );
 
 export default TodoModel;
