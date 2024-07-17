@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import UserModel from '../../database/models/UserModel';
+import UserModel from '../../database/models/UserInfoModel';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 const UserRouter = Router();
