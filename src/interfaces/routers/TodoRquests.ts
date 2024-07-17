@@ -1,3 +1,7 @@
+export interface IMarkTodoBody {
+  todoId: number;
+  newIsDone: boolean;
+}
 export interface IGetAllTodosBody {
   todoId: number;
   newIsDone: boolean;
